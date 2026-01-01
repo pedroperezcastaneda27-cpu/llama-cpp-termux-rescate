@@ -14,9 +14,16 @@
       background: #fff;
       padding: 20px;
       margin: auto;
-      width: 300px;
+      width: 320px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input {
+      width: 90%;
+      padding: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
     }
     button {
       background: #007bff;
@@ -30,15 +37,18 @@
     button:hover {
       background: #0056b3;
     }
+    hr {
+      margin: 20px 0;
+    }
   </style>
 </head>
 <body>
   <div class="card">
     <h1>Bienvenido</h1>
     <p>Regístrate y recibe <strong>5 toques de prueba</strong> gratis.</p>
-    <input type="text" placeholder="Correo electrónico" style="width: 90%; padding: 8px;">
-    <br><br>
-    <button onclick="alert('Usuario registrado. Toques asignados.')">Registrarse</button>
+    <input type="text" id="correo" placeholder="Correo electrónico">
+    <br>
+    <button onclick="registrarUsuario()">Registrarse</button>
     <hr>
     <p>Toques disponibles: <span id="toques">5</span></p>
     <button onclick="usarToque()">Generar Video/Imagen</button>
@@ -46,13 +56,29 @@
 
   <script>
     let toques = 5;
+    let registrado = false;
+
+    function registrarUsuario() {
+      const correo = document.getElementById('correo').value;
+      if (correo.trim() === "") {
+        alert("Por favor ingresa un correo válido.");
+      } else {
+        registrado = true;
+        alert("Usuario registrado: " + correo + ". Toques asignados.");
+      }
+    }
+
     function usarToque() {
+      if (!registrado) {
+        alert("Primero debes registrarte para usar tus toques.");
+        return;
+      }
       if (toques > 0) {
         toques--;
         document.getElementById('toques').innerText = toques;
-        alert('Generando contenido con IA...');
+        alert("Generando contenido con IA...");
       } else {
-        alert('Ya no tienes toques. Compra más para continuar.');
+        alert("Ya no tienes toques. Compra más para continuar.");
       }
     }
   </script>
