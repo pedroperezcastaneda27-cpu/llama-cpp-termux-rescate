@@ -1,0 +1,9 @@
+{
+  "users": [
+    {
+      "name": "Pedro",
+      "plan": "Básico",
+      "credits": 100
+    }
+  ]
+}
