@@ -1,1 +1,9 @@
-
+{
+  "name": "Básico",
+  "price": 9,
+  "credits": 100,
+  "video_cost": {
+    "720p_2m30s": 16
+  },
+  "max_videos": 6
+}
