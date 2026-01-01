@@ -12,41 +12,4 @@
     "historial": ["video_1.mp4", "video_2.mp4"]
   }
 }
-import json
 
-USUARIOS_FILE = "usuarios.json"
-
-def cargar_usuarios():
-    try:
-        with open(USUARIOS_FILE, "r", encoding="utf-8") as f:
-            return json.load(f)
-    except FileNotFoundError:
-        return {}
-
-def guardar_usuarios(data):
-    with open(USUARIOS_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
-
-def registrar_usuario(correo, nombre=""):
-    usuarios = cargar_usuarios()
-    if correo not in usuarios:
-        usuarios[correo] = {
-            "nombre": nombre,
-            "plan": "Básico",
-            "creditos": 5,
-            "historial": []
-        }
-        guardar_usuarios(usuarios)
-        return f"Usuario {nombre} registrado con 5 toques."
-    else:
-        return f"Bienvenido de nuevo {usuarios[correo]['nombre']}. Créditos disponibles: {usuarios[correo]['creditos']}"
-
-def generar_video(correo, archivo_video):
-    usuarios = cargar_usuarios()
-    if correo in usuarios and usuarios[correo]["creditos"] > 0:
-        usuarios[correo]["creditos"] -= 1
-        usuarios[correo]["historial"].append(archivo_video)
-        guardar_usuarios(usuarios)
-        return f"Video generado: {archivo_video}. Créditos restantes: {usuarios[correo]['creditos']}"
-    else:
-        return "No tienes créditos suficientes."
