@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>App IA - Toques de Prueba</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      text-align: center;
+      padding: 50px;
+    }
+    .card {
+      background: #fff;
+      padding: 20px;
+      margin: auto;
+      width: 300px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      margin-top: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>Bienvenido</h1>
+    <p>Regístrate y recibe <strong>5 toques de prueba</strong> gratis.</p>
+    <input type="text" placeholder="Correo electrónico" style="width: 90%; padding: 8px;">
+    <br><br>
+    <button onclick="alert('Usuario registrado. Toques asignados.')">Registrarse</button>
+    <hr>
+    <p>Toques disponibles: <span id="toques">5</span></p>
+    <button onclick="usarToque()">Generar Video/Imagen</button>
+  </div>
+
+  <script>
+    let toques = 5;
+    function usarToque() {
+      if (toques > 0) {
+        toques--;
+        document.getElementById('toques').innerText = toques;
+        alert('Generando contenido con IA...');
+      } else {
+        alert('Ya no tienes toques. Compra más para continuar.');
+      }
+    }
+  </script>
+</body>
+</html>
