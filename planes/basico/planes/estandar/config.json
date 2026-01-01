@@ -1,1 +1,9 @@
-
+{
+  "name": "Estándar",
+  "price": 25,
+  "credits": 300,
+  "video_cost": {
+    "1080p_15s": 5
+  },
+  "max_videos": 60
+}
