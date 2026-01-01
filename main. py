@@ -1,0 +1,18 @@
+from credits_manager import CreditsManager
+from job_queue import JobQueue
+from video_processor import convert_video
+
+# Simulación de usuario con plan básico
+manager = CreditsManager(initial_credits=100)
+queue = JobQueue()
+
+# Usuario pide un video
+if manager.consume("video_1.mp4", cost=16):
+    queue.add_job({"video": "video_1.mp4", "output": "video_1_fixed.mp4"})
+    print("Video agregado a la cola. Créditos restantes:", manager.get_balance())
+
+# Procesar cola
+job = queue.get_next_job()
+if job:
+    convert_video(job["video"], job["output"])
+    print("Video procesado y convertido:", job["output"])
