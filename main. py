@@ -1,35 +1,35 @@
-from gestor_de_usuarios import GestorDeUsuarios
+
+from user_manager import UserManager
 from cola_de_trabajos import JobQueue
 from procesador_de_video import convert_video
 
 if __name__ == "__main__":
     # 1) Inicializar gestor de usuarios
-    gestor = GestorDeUsuarios()
+    manager = UserManager()
 
     # 2) Cargar usuario (ejemplo: Pedro)
-    datos = gestor.inicializar_usuario("Pedro")
+    datos = manager.inicializar_usuario("Pedro")
     usuario = datos["usuario"]
     plan_cfg = datos["plan"]
-    manager = datos["manager"]
 
     print(f"Usuario: {usuario['nombre']} | Plan: {plan_cfg['name']} | Créditos iniciales: {manager.get_balance()}")
 
     # 3) Crear cola de trabajos
-    queue = JobQueue()
+    cola = JobQueue()
 
     # 4) Simular que el usuario pide un video según su plan
     clave_video = list(plan_cfg["video_cost"].keys())[0]  # toma la primera clave del plan
     costo = plan_cfg["video_cost"][clave_video]
 
-    if manager.consume("video_1.mp4", cost=costo):
-        queue.add_job({"video": "video_1.mp4", "output": "video_1_fixed.mp4"})
+    if manager.consume("video_1.mp4", costo=costo):
+        cola.add_job({"video": "video_1.mp4", "salida": "video_1_fijo.mp4"})
         print(f"Video agregado a la cola ({clave_video}). Créditos restantes:", manager.get_balance())
     else:
         print("No hay créditos suficientes para generar el video.")
 
     # 5) Procesar la cola y reconvertir para compatibilidad
-    job = queue.get_next_job()
-    if job:
-        convert_video(job["video"], job["output"])
-        print("Video procesado y convertido:", job["output"])
+    trabajo = cola.obtener_siguiente_trabajo()
+    if trabajo:
+        convert_video(trabajo["video"], trabajo["salida"])
+        print("Video procesado y convertido:", trabajo["salida"])
         print("Historial:", manager.get_history())
