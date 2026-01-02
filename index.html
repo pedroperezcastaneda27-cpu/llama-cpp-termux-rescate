@@ -2,113 +2,77 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>App IA - Toques de Prueba</title>
+  <title>Generador de Video</title>
   <style>
     body {
       font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      text-align: center;
-      padding: 50px;
+      margin: 40px;
+      background-color: #f9f9f9;
     }
-    .card {
+    h1 {
+      color: #333;
+    }
+    #contenedor {
       background: #fff;
       padding: 20px;
-      margin: auto;
-      width: 320px;
       border-radius: 8px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    input {
-      width: 90%;
-      padding: 8px;
-      margin-bottom: 10px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
+      max-width: 400px;
     }
     button {
-      background: #007bff;
-      color: white;
-      border: none;
+      margin-top: 15px;
       padding: 10px 20px;
-      margin-top: 10px;
+      background-color: #0078d7;
+      color: #fff;
+      border: none;
       border-radius: 5px;
       cursor: pointer;
     }
     button:hover {
-      background: #0056b3;
-    }
-    hr {
-      margin: 20px 0;
+      background-color: #005a9e;
     }
   </style>
 </head>
 <body>
-  <div class="card">
+  <div id="contenedor">
     <h1>Bienvenido</h1>
-    <p>Regístrate y recibe <strong>5 toques de prueba</strong> gratis.</p>
-    <input type="text" id="correo" placeholder="Correo electrónico">
-    <br>
-    <button onclick="registrarUsuario()">Registrarse</button>
-    <hr>
-    <p>Toques disponibles: <span id="toques">5</span></p>
-    <button onclick="usarToque()">Generar Video/Imagen</button>
+    <p id="mensaje">Cargando usuario...</p>
+    <p id="creditos">Créditos disponibles: ...</p>
+    <button onclick="generarVideo()">Generar Video/Imagen</button>
   </div>
 
   <script>
-    let toques = 5;
-    let registrado = false;
+    const correo = "pedroperezcastaneda160820@gmail.com"; // tu correo fijo
 
-    function registrarUsuario() {
-      const correo = document.getElementById('correo').value;
-      if (correo.trim() === "") {
-        alert("Por favor ingresa un correo válido.");
-      } else {
-        registrado = true;
-        alert("Usuario registrado: " + correo + ". Toques asignados.");
+    async function cargarUsuario() {
+      try {
+        const respuesta = await fetch(`/api/usuario?correo=${correo}`);
+        const datos = await respuesta.json();
+
+        document.getElementById("mensaje").innerText =
+          `Usuario: ${datos.nombre} | Plan: ${datos.plan}`;
+        document.getElementById("creditos").innerText =
+          `Créditos disponibles: ${datos.creditos}`;
+      } catch (error) {
+        document.getElementById("mensaje").innerText = "Error al cargar usuario.";
       }
     }
 
-    function usarToque() {
-      if (!registrado) {
-        alert("Primero debes registrarte para usar tus toques.");
-        return;
-      }
-      if (toques > 0) {
-        toques--;
-        document.getElementById('toques').innerText = toques;
-        alert("Generando contenido con IA...");
-      } else {
-        alert("Ya no tienes toques. Compra más para continuar.");
-      }
-    }
-  </script>
-  <script>
-  let toques = 5;
-  let registrado = false;
+    async function generarVideo() {
+      try {
+        const respuesta = await fetch(`/api/generar?correo=${correo}`, { method: "POST" });
+        const datos = await respuesta.json();
 
-  function registrarUsuario() {
-    const correo = document.getElementById('correo').value;
-    if (correo.trim() === "") {
-      alert("Por favor ingresa un correo válido.");
-    } else {
-      registrado = true;
-      alert("Usuario registrado: " + correo + ". Toques asignados.");
+        document.getElementById("creditos").innerText =
+          `Créditos disponibles: ${datos.creditos}`;
+        alert(datos.mensaje);
+      } catch (error) {
+        alert("Error al generar video.");
+      }
     }
-  }
 
-  function usarToque() {
-    if (!registrado) {
-      alert("Primero debes registrarte para usar tus toques.");
-      return;
-    }
-    if (toques > 0) {
-      toques--;
-      document.getElementById('toques').innerText = toques;
-      alert("Generando contenido con IA...");
-    } else {
-      alert("Ya no tienes toques. Compra más para continuar.");
-    }
-  }
+    // Al cargar la página, mostrar datos del usuario
+    cargarUsuario();
   </script>
 </body>
 </html>
