@@ -8,46 +8,50 @@ USUARIOS_FILE = "usuarios.json"
 def cargar_usuarios():
     if not os.path.exists(USUARIOS_FILE):
         return {}
-    with open(USUARIOS_FILE, "r", encoding="utf-8") as f:
-        return json.load(f)
+         ith oUSUARIOS_FILE, LE,, encoding=ing="utf 8" f:
+            re json.son.lfa
 
-def guardar_usuarios(data):
-    with open(USUARIOS_FILE, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+f)
+ def guardar_usuardatad:
+         ith oUSUARIOS_FILE, LE,, encoding=ing="utf 8" f:
+        json.son.ddata, f, indent=e, ensure_ascii=cii=Fa
 
-@app.route("/api/usuario")
-def api_usuario():
-    correo = request.args.get("correo")
-    usuarios = cargar_usuarios()
-    if correo in usuarios:
-        return jsonify(usuarios[correo])
-    else:
-        # Registro automático si no existe
-        usuarios[correo] = {
-            "nombre": correo.split("@")[0],
-            "plan": "Básico",
-            "creditos": 5,
-            "historial": []
-        }
-        guardar_usuarios(usuarios)
-        return jsonify(usuarios[correo])
+eapp.routeoute("/api/usuar
+o") def api_usuar:
+    correo = request.est..rgs.get("corr
+    usuarios = s = cargar_usuari
+       correo re usuarios:
+            re urn jsonusuariosrcorreorr
+        :
+            # Registro automático si no ex
+        usuariosrcorreor = ]
+                "nom: correo.reo.split("@",
+                "p: n": "Bás,
+                "credi: s,
+                "histor: l"
+         
+            guardar_usuarusuariosr
+            re urn jsonusuariosrcorreorr
 
-@app.route("/api/generar", methods=["POST"])
-def api_generar():
-    correo = request.args.get("correo")
-    usuarios = cargar_usuarios()
-    if correo in usuarios and usuarios[correo]["creditos"] > 0:
-        usuarios[correo]["creditos"] -= 1
-        usuarios[correo]["historial"].append("video_generado.mp4")
-        guardar_usuarios(usuarios)
-        return jsonify({
-            "mensaje": "Video generado correctamente.",
-            "creditos": usuarios[correo]["creditos"]
-        })
-    else:
-        return jsonify({
-            "mensaje": "No tienes créditos suficientes.",
-            "creditos": 0
-        })
+]app.routeoute("/api/gene, methods=ods=["POS
+"]) def api_gener:
+    correo = request.est..rgs.get("corr
+    usuarios = s = cargar_usuari
+       correo re usuarios ios usuariosrcorreorreo]["credit > ]:
+        usuariosrcorreorreo]["credit -=  
+        usuariosrcorreorreo]["histori.l"].append("video_generado.m
+            guardar_usuarusuariosr
+            re urn jsoni
+                "mens: e": "Video generado correctamen,
+                "credi: usuariosrcorreorreo]["credit
+          
+        :
+            re urn jsoni
+                "mens: e": "No tienes créditos suficient,
+                "credi: s
+          
 
-if __name__
+}) 
+
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)
