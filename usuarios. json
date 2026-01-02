@@ -1,1 +1,15 @@
 
+{
+  "pedroperezcastaneda160820@gmail.com": {
+    "nombre": "Pedro",
+    "plan": "Básico",
+    "creditos": 4,
+    "historial": []
+  },
+  "otrocorreo@example.com": {
+    "nombre": "Ana",
+    "plan": "Pro",
+    "creditos": 10,
+    "historial": ["video_1.mp4", "video_2.mp4"]
+  }
+}
